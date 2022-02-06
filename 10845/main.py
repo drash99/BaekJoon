@@ -1,10 +1,11 @@
+import sys
 N = int(input())
 
 stacks = []
 for i in range(N):
-    line = input()
+    line = sys.stdin.readline()
     if line.startswith('pu'):
-        stacks.append(line[1])
+        stacks.append(int(line[5:]))
     elif line.startswith('po'):
         if len(stacks) !=0:
             print(stacks.pop(0))

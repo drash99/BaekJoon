@@ -1,0 +1,22 @@
+binary search tree
+
+
+class:
+    number of holding leaves
+    value
+    left 
+    right
+
+    methods:
+    init
+        left = 0
+        right = 0
+        value = i
+        holding = 1
+    insert i
+        if value < i
+            if value.right != 0
+                value.right.insert
+            else
+                value.right = tree(i)
+        

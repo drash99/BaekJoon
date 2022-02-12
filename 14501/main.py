@@ -13,7 +13,7 @@ def finddp(i):
 prices = []
 
 for i in range(N):
-    prices.append(tuple(map(int, input().split())))
+    prices.append(tuple(map(int, sys.stdin.readline().split())))
 
 for i in range(N-1, -1, -1):
     if i+prices[i][0] > N:

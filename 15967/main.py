@@ -2,7 +2,6 @@ import sys
 
 n, m, k = map(int, input().split())
 
-testarr = []
 
 class lazytree():
     def __init__(self, nums, start, end):
@@ -37,45 +36,35 @@ class lazytree():
             return self.right.findsum(start,end)
     def updatesum(self, start, end, v):
         self.applylazy()
-        if self.start == self.end and start != end:
-            print(testarr[0])
         if start == self.start and end == self.end:
             if self.start != self.end:
                 self.left.lazy += v
                 self.right.lazy += v
-            self.sum += v*(end-start+1)
+                self.sum += v*(end-start+1)
+            else:
+                self.sum += v
         else:
             half = (self.start+self.end)//2+1
             if start < half:
                 if end < half:
                     self.left.updatesum(start,end,v)
+                    self.right.applylazy()
                 else:
                     self.left.updatesum(start,half-1,v)
                     self.right.updatesum(half,end,v)
             else:
+                self.left.applylazy()
                 self.right.updatesum(start,end,v)
             self.sum = self.left.sum+self.right.sum
 
-    def __str__(self) -> str:
-        tmp = f"start: {self.start} end:{self.end} lazy:{self.lazy} sum:{self.sum}"
-        if self.start != self.end:
-            tmp+='\n'
-            tmp += str(self.left)
-            tmp+='\n'
-            tmp += str(self.right )
-        return tmp
 
-
-nums = []
-for _ in range(n):
-    nums.append(int(sys.stdin.readline()))
+nums = list(map(int,sys.stdin.readline().split()))
 
 segtree = lazytree(nums,0,len(nums)-1)
 
 for _ in range(m+k):
-    line = list(map(int, sys.stdin.readline().split()))
-    if line[0] == 1:
+    line = list(map(int, sys.stdin.readline().strip().split()))
+    if line[0] == 2:
         segtree.updatesum(line[1]-1,line[2]-1,line[3])
     else:
         print(segtree.findsum(line[1]-1,line[2]-1))
-    print(segtree)

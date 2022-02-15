@@ -25,13 +25,11 @@ class answer():
             self.ansdict[value] = 1
             if self.maxvalue == 0:
                 self.maxvalue = 1
-    def delete(self, start, end):
-        for i in range(start ,end+1):
-            if nums[i] in self.ansdict:
-                self.ansdict[nums[i]] -=1
-                if self.ansdict[nums[i]] == 0:
-                    self.ansdict.pop(nums[i])
-        self.maxvalue = max(self.ansdict.values())
+    def delete(self, value):
+        if value in self.ansdict:
+            self.ansdict[value] -=1
+            if self.ansdict[value] == 0:
+                self.ansdict.pop(value)
 
         
 def findit(start, end):
@@ -54,7 +52,9 @@ befans = answer(dict())
 befstart = -1
 befend = -1
 
-
+def shrinkdict(dest, start, end):
+    for i in range(start, end+1):
+        dest.delete(nums[i])
 def adddict(dest, start, end):
     for i in range(start, end+1):
         dest.add(nums[i])
@@ -63,15 +63,15 @@ for i in qsorted:
     if befstart > i[0]:
         adddict(befans, i[0], befstart-1)
     elif befstart < i[0] and i[0] < befend :
-        befans.delete(befstart, i[0]-1)
+        shrinkdict(befans, befstart, i[0]-1)
 
     if befend < i[1] and i[0] < befend :
         adddict(befans, befend+1, i[1])
     elif befend > i[1]:
-        befans.delete(i[1]+1, befend)
+        shrinkdict(befans, i[1]+1, befend)
     elif befend <= i[0]:
         befans = findit(i[0], i[1])
-    ans[i] = befans.maxvalue
+    ans[i] = len(befans.ansdict.keys())
     befstart = i[0]
     befend = i[1]
 

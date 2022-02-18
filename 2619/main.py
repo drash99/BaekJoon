@@ -5,8 +5,6 @@ hor = set() #R
 ver = set() #U
 import bisect
 from collections import deque
-from glob import glob
-
 
 
 def cdtpt(coord, xpts, ypts):
@@ -16,19 +14,26 @@ def drawway():
     #print(pos)
     n = int(input())
     xpts = []
+    xset = set()
     ypts = []
+    yset = set()
     queries = deque()
     for i in range(n):
         rawx, rawy = map(int,input().split())
         queries.append((rawx,rawy))
-        if not rawx in xpts:
-            bisect.insort(xpts,rawx)
-        if not rawy in ypts:
-            bisect.insort(ypts,rawy)
+        if not rawx in xset:
+            xset.add(rawx)
+            xpts.append(rawx)
+        if not rawy in yset:
+            yset.add(rawy)
+            ypts.append(rawy)
+    xpts.sort()
+    ypts.sort()
     
     pos = cdtpt(queries.popleft(), xpts,ypts)
     
-    for raw in queries:
+    while queries:
+        raw = queries.popleft()
         cdt = cdtpt(raw, xpts,ypts)
         if cdt[1] == pos[1]:
             if cdt[0] > pos[0]:

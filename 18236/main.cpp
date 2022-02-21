@@ -49,6 +49,7 @@ namespace HuShing {
 
 	void new_arc(int u,int v) {
 		assert(u<=v);
+		//printf("newarc %d %d\n", u,v);
 		++n_arcs;
 		h[n_arcs].id=n_arcs;
 		h[n_arcs].u=u;
@@ -92,6 +93,7 @@ namespace HuShing {
 		}
 		for(auto& it:tmp) {
 			if(it.first==1||it.second==1) continue;
+			//printf("(%d, %d)\n",it.first,it.second);
 			lst.push_back(it);
 		}
 		build_tree(lst);
@@ -99,21 +101,28 @@ namespace HuShing {
 	void prepare() {
 		int V1=min_element(w+1,w+n+1)-w;
 		rotate(w+1,w+V1,w+n+1);
+		//for (int i=0;i<=n+1;i++){
+		//	printf("w[%d]: %d\n", i,w[i]);
+		//}
 		w[n+1]=w[1];
 		for(int i=1;i<=n+1;i++) {
 			CP[i]=(ll)w[i]*w[i-1];
 			CP[i]+=CP[i-1];
+			//printf("CP[%d]: %d\n",i, CP[i]);
 		}
 	}
 	ll get_mn_mul(int node) {
+		//printf("%d\n", node);
 		if(node==1) return (ll)w[1]*w[2]+(ll)w[1]*w[n];
 		HArc& cur=h[node];
 		if(cur.u==cur.low) {
 			if(con[cur.u].empty()||!cur.contains(con[cur.u].back())) {
+				//printf("1: u:%d v:%d\n", cur.u, cur.v);
 				return (ll)w[cur.u]*w[cur.u+1];
 			} else return con[cur.u].back().mul;
 		} else {
 			if(con[cur.v].empty()||!cur.contains(con[cur.v].back())) {
+				//printf("3: u:%d v:%d\n", cur.u, cur.v);
 				return (ll)w[cur.v]*w[cur.v-1];
 			} else return con[cur.v].back().mul;
 		}
@@ -121,12 +130,14 @@ namespace HuShing {
 		return 0;
 	}
 	inline void add_arc(int cur_node,HArc& arc) {
+		//printf("addarc %d %d\n", cur_node, arc.get_support());
 		pq[qid[cur_node]].push(arc);
 		con[arc.u].push_back(arc);
 		con[arc.v].push_back(arc);
 	}
 	inline void remove_arc(int cur_node) {
 		const HArc& hm=pq[qid[cur_node]].top();
+		//printf("%d %lld u: %d v:%d\n",cur_node, hm.get_support(), hm.u,hm.v);
 		con[hm.u].pop_back();
 		con[hm.v].pop_back();
 		pq[qid[cur_node]].pop();
@@ -152,8 +163,11 @@ namespace HuShing {
 		sub[node]=1;
 		if(child[node].empty()) {
 			qid[node]=++n_pqs;
+			//printf("qid[%d]: %d\n", node, qid[node]);
 			cur.den=cur.base;
+			//printf("11111\n");
 			cur.num=(ll)w[cur.low]*(cur.den+cur.mul-get_mn_mul(node));
+			//printf("num: %lld den:%lld low:%lld\n", cur.num ,cur.den, cur.low);
 			add_arc(node,cur);
 			return;
 		}
@@ -163,12 +177,14 @@ namespace HuShing {
 			sub[node]+=sub[it];
 			cur.den-=h[it].base;
 		}
+		//printf("22222\n");
 		cur.num=(ll)w[cur.low]*(cur.den+cur.mul-get_mn_mul(node));
 		merge_pq(node);
 		auto& cur_pq=pq[qid[node]];
 		while(!cur_pq.empty()&&cur_pq.top().get_support()>=w[cur.low]) {
 			auto hm=cur_pq.top();
 			cur.den+=hm.den;
+			//printf("33333 %d %d\n", cur_pq.size(), cur_pq.top().get_support());
 			remove_arc(node); // this must be done before calculating cur.num!
 			cur.num=(ll)w[cur.low]*(cur.den+cur.mul-get_mn_mul(node));
 		}
@@ -219,7 +235,13 @@ namespace HuShing {
 }
 
 int main() {
-	// three matrices: 5x3,3x2,2x6
-	printf("%lld\n",HuShing::solve({5,3,2,6}));
+	// three matrices: 5x3,3x2,2x6int n;
+	int n;
+	scanf("%d",&n);
+	vector<long long> v(n+1);
+	for(int i=0; i<n; i++){
+		scanf("%lld %lld",&v[i],&v[i+1]);
+	}
+	printf("%lld\n",HuShing::solve(v));
 	return 0;
 }

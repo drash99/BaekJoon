@@ -7,7 +7,7 @@ def isPrime(area):
         s+=1
         area = area//2
 
-    #print(area,s,n)
+    print(area,s,n)
     a = [2,7,61]
     isp = 0
     for i in a:
@@ -20,7 +20,7 @@ def isPrime(area):
         for r in range(s):
             if pow(i,(2**r)*area,n)==n-1:
                 isp+=1
-                continue
+                break
     
     if isp ==3:
         return 1

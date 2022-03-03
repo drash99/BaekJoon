@@ -1,7 +1,4 @@
 import math
-import bisect
-
-import math
 def isPrime(n):
     if n<2:
         return False
@@ -30,12 +27,12 @@ def isPrime(n):
     else:
         return False
 
-ans = set()
+ans = []
 
 def pollardrho(ans,todo, n,x0=-1):
     #print(n)
     if isPrime(n):
-        ans.add(n)
+        ans.append(n)
         return
     if n==4:
         s = (2+x0)**2+x0
@@ -65,21 +62,10 @@ def pollardrho(ans,todo, n,x0=-1):
     todo.append((a,1))
     todo.append((g,1))
     return
-chamgo = [1,3,6,10,15,21,28,36,45,55,65]
 
+n = int(input())
 
-def rep(a,b):
-    ans = 0
-    while a%b==0:
-        ans+=1
-        a//=b
-    return (bisect.bisect_left(chamgo, ans)+1, a)
-
-k, q = map(int, input().split())
-a = map(int, input().split())
-ansdict = dict()
-anss = []
-todo = [(k,1)]
+todo = [(n,1)]
 while todo:
     newtodo = []
     for i in todo:
@@ -87,23 +73,6 @@ while todo:
     todo = newtodo
     #print(todo)
     
-primes = list(ans)
-primes.sort()
-
-#print(primes)
-for i in a:
-    nk = k//math.gcd(i,k)
-    ans = 0
-    if nk in ansdict:
-        anss.append(ans)
-        continue
-    for prime in primes:
-        if nk == 1:
-            break
-        if nk%prime==0:
-            tmp = rep(nk, prime)
-            ans = max(ans, prime*tmp[0])
-            nk = tmp[1]
-    ansdict[nk] = ans
-    anss.append(ans)
-print(' '.join(map(str, anss)))
+ans.sort()
+for a in ans:
+    print(a)

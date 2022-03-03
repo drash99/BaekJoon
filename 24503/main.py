@@ -30,7 +30,7 @@ def isPrime(n):
     else:
         return False
 
-ans = set()
+primes = set()
 
 def pollardrho(ans,todo, n,x0=-1):
     #print(n)
@@ -69,11 +69,17 @@ chamgo = [1,3,6,10,15,21,28,36,45,55,65]
 
 
 def rep(a,b):
-    ans = 0
+    cur = b
     while a%b==0:
-        ans+=1
-        a//=b
-    return (bisect.bisect_left(chamgo, ans)+1, a)
+        tmp = cur
+        while tmp%b==0 and a%b==0:
+            #print(a,b,tmp)
+            tmp//=b
+            a//=b
+        cur+=b
+    #print(cur-b,a, b)
+    return (cur-b, a)
+
 
 k, q = map(int, input().split())
 a = map(int, input().split())
@@ -83,26 +89,27 @@ todo = [(k,1)]
 while todo:
     newtodo = []
     for i in todo:
-        pollardrho(ans,newtodo,i[0],i[1])
+        pollardrho(primes,newtodo,i[0],i[1])
     todo = newtodo
     #print(todo)
     
-primes = list(ans)
+primes = list(primes)
 primes.sort()
+
 
 #print(primes)
 for i in a:
     nk = k//math.gcd(i,k)
-    ans = 0
+    ans = 1
     if nk in ansdict:
-        anss.append(ans)
+        anss.append(ansdict[nk])
         continue
     for prime in primes:
         if nk == 1:
             break
         if nk%prime==0:
             tmp = rep(nk, prime)
-            ans = max(ans, prime*tmp[0])
+            ans = max(ans, tmp[0])
             nk = tmp[1]
     ansdict[nk] = ans
     anss.append(ans)

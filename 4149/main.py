@@ -30,18 +30,19 @@ def isPrime(n):
 ans = []
 
 def pollardrho(ans,todo, n,x0=-1):
-    #print(n)
+    #print(n,x0)
     if isPrime(n):
         ans.append(n)
         return
     if n==4:
-        s = (2+x0)**2+x0
-        t = (2+x0)
+        s = (2+x0**2)**2+x0
+        t = (2+x0**2)
     else:
         s = (3+x0)**2+x0
         t = 3+x0
     s%=n
     t%=n
+    print(s,t, x0)
     g = math.gcd(abs(s-t),n)
     while g==1:
         s = (s**2+x0)%n

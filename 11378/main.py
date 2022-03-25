@@ -41,7 +41,7 @@ while ans2 - start <= k and ans2 != ans1:
 print(current)
 
 if ans2-start > k:
-    print(ans1)
+    print(start+k)
 else:
     print(ans2)    
                 

@@ -1,18 +1,7 @@
 import sys
 
 input = sys.stdin.readline
-class Configuration(object):
-    """
-    Configuration for test environment.
 
-    Parameters
-    ----------
-    MAXIMUM_TEST_SET_NUMBER: an integer i
-        where i is an element in {1,2,3,4}.
-        Only the test set 1 to i will be tested and graded,
-        and the remaining test sets will be ignored.
-    """
-    MAXIMUM_TEST_SET_NUMBER = 4
 
 
 class rangeytree(object):
@@ -57,7 +46,7 @@ class rangeytree(object):
             if rect[0][0] == rect[0][1]:
                 return self.left.query(rect, 0)+self.right.query(rect, 0)
             if self.value >= rect[1][0]:
-                if self.value >= rect[1][1]:
+                if self.value > rect[1][1]:
                     return self.left.query(rect, 0)
                 else:  # vsplit
                     return self.left.query(rect, 1)+self.right.query(rect, 2)
@@ -122,7 +111,7 @@ class rangetree(object):
             if rect[0][0] == rect[0][1]:
                 return self.left.query(rect, 0)+self.right.query(rect, 0)
             if self.value >= rect[0][0]:
-                if self.value >= rect[0][1]:
+                if self.value > rect[0][1]:
                     return self.left.query(rect, 0)
                 else:  # vsplit
                     return self.left.query(rect, 1)+self.right.query(rect, 2)

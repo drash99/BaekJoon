@@ -31,3 +31,6 @@ def find(st):
         
         
 print(find(1))
+
+ans = list(range(1,2*n,2))
+print(' '.join(map(str, ans)))

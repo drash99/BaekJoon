@@ -35,8 +35,8 @@ def pollardrho(ans,todo, n,x0=-1):
         ans.append(n)
         return
     if n==4:
-        s = (2+x0**2)**2+x0
-        t = (2+x0**2)
+        s = (2+x0)**2+x0
+        t = (2+x0)
     else:
         s = (3+x0)**2+x0
         t = 3+x0
